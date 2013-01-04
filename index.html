@@ -105,7 +105,7 @@
 
         var _onPlay = function() {
           vis.draw(pl.getVisualisationData());
-          rqAnFrm(_onPlay);
+          requestAnimationFrame(_onPlay);
         };
 
         pl.bind('play', _onPlay);
