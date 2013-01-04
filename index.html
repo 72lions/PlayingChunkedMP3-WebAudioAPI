@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Audio API - Playing a chunked mp3 file</title>
+  <style type="text/css">
+    html, body {
+      margin: 0px;
+      padding: 0px;
+      text-align: center;
+    }
+
+    body {
+      border-top: 3px solid #f02311;
+      text-shadow: 0 1px #fff;
+      font-family: Arial;
+      font-size: 13px;
+      background-image: url('http://72lions.com/assets/images/stripe_e7eb00fc0caa9bf17359f52ecb7f3416.png');
+    }
+
+    a:link, a:visited {
+      color: #f02311;
+    }
+
+    #logo {
+      position: fixed;
+      top: 25px;
+      left: 24px;
+      z-index: 1000;
+    }
+
+    #logo img {
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -o-border-radius: 5px;
+      border-radius: 5px;
+      -webkit-box-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+      -moz-box-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+      -o-box-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+      box-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+    }
+
+    #visualiser {
+      display: inline-block;
+      border-bottom: 1px solid white;
+    }
+
+    #description, #log {
+      display: inline-block;
+      width: 1024px;
+      text-align: left;
+    }
+
+    #log {
+      max-height: 197px;
+      overflow: scroll;
+    }
+
+  </style>
+</head>
+<body>
+  <a href="http://72lions.com" id="logo" title="72lions Website" target="_blank">
+    <img src="http://72lions.com/assets/images/logo.png" alt="72lions logo">
+  </a>
+  <canvas id="visualiser"></canvas>
+  <div id="description">
+    <p>
+      In this proof of concept <b>(currently only tested and working in Chrome)</b> I've split the mp3 in 23 parts by using the unix split command.
+      The moment the first part is loaded then the playback starts immediately and it loads the second part.
+      When the second part is loaded then then I create a new AudioBuffer by combining the old and the new,
+      and I change the buffer of the AudioSourceNode with the new one. At that point I start playing again
+      from the new AudioBuffer.
+      <br/><br/>
+      A lot of thanks to Paul (<a href="http://twitter.com/aerotwist" title="Paul Lewis on Twitter" target="_blank">@aerotwist</a>) for his suggestions and to Theo for letting me use his awesome track <a href="https://soundcloud.com/theokouroumlis/breathe-in" title="Theo Kouroumlis - Breathe In" target="_blank">Breathe In</a>.
+    </p>
+    <p><b><a href="http://72lions.com/download.php?file=WebAudioAPI_Playing_Chunked_MP3s%2FWebAudioAPI_Playing_Chunked_MP3s.zip" title="Download WebAudio API Playing Chunked MP3" target="blank">Download source</a></b></p>
+    Debug:
+  </div>
+  <pre id="log"></pre>
+  <script type="text/javascript" src="eventtarget.js"></script>
+  <script type="text/javascript" src="mp3chunksplayer.js"></script>
+  <script type="text/javascript" src="visualiser.js"></script>
+  <script type="text/javascript">
+
+    // On window load initialize the class
+    window.addEventListener('load',function() {
+
+      var log = document.getElementById('log');
+      var vis = new Visualiser('visualiser').init();
+      var pl = new MP3ChunksPlayer().init();
+
+      var _onMessage = function(event) {
+        log.innerHTML = event.params.join(' ') + '<br/>' + log.innerHTML;
+      };
+
+      var _onPlay = function() {
+        vis.draw(pl.getVisualisationData());
+        requestAnimationFrame(_onPlay);
+      };
+
+      pl.bind('play', _onPlay);
+      pl.bind('message', _onMessage);
+
+    }, false);
+
+  </script>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3983098-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</body>
+</html>
