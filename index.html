@@ -56,6 +56,12 @@
       overflow: scroll;
     }
 
+    #error {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 80px 20px 20px 20px;
+    }
+
   </style>
 </head>
 <body>
@@ -65,7 +71,7 @@
   <canvas id="visualiser"></canvas>
   <div id="description">
     <p>
-      In this proof of concept <b>(currently only tested and working in Chrome)</b> I've split the mp3 in 25 parts by using the unix split command.
+      In this proof of concept <b>(currently only tested and working in Chrome 24+)</b> I've split the mp3 in 25 parts by using the unix split command.
       The moment the first part is loaded then the playback starts immediately and it loads the second part.
       When the second part is loaded then I create a new AudioBuffer by combining the old and the new,
       and I change the buffer of the AudioSourceNode with the new one. At that point I start playing again
@@ -82,29 +88,31 @@
   <script type="text/javascript" src="visualiser.js"></script>
   <script type="text/javascript">
 
-    requestAnimationFrame = requestAnimationFrame || webkitRequestAnimationFrame;
+    if (!window.requestAnimationFrame) {
+      document.body.innerHTML ='<div id="error">I\'m sorry but you need Chrome 24+</div>';
+    } else {
 
-    // On window load initialize the class
-    window.addEventListener('load',function() {
+      // On window load initialize the class
+      window.addEventListener('load',function() {
 
-      var log = document.getElementById('log');
-      var vis = new Visualiser('visualiser').init();
-      var pl = new MP3ChunksPlayer().init();
+        var log = document.getElementById('log');
+        var vis = new Visualiser('visualiser').init();
+        var pl = new MP3ChunksPlayer().init();
 
-      var _onMessage = function(event) {
-        log.innerHTML = event.params.join(' ') + '<br/>' + log.innerHTML;
-      };
+        var _onMessage = function(event) {
+          log.innerHTML = event.params.join(' ') + '<br/>' + log.innerHTML;
+        };
 
-      var _onPlay = function() {
-        vis.draw(pl.getVisualisationData());
-        requestAnimationFrame(_onPlay);
-      };
+        var _onPlay = function() {
+          vis.draw(pl.getVisualisationData());
+          rqAnFrm(_onPlay);
+        };
 
-      pl.bind('play', _onPlay);
-      pl.bind('message', _onMessage);
+        pl.bind('play', _onPlay);
+        pl.bind('message', _onMessage);
 
-    }, false);
-
+      }, false);
+    }
   </script>
   <script type="text/javascript">
 
