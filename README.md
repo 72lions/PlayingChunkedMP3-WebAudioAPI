@@ -7,3 +7,5 @@ In this proof of concept **(currently only tested and working in Chrome 24+)** I
 When the second part is loaded then then I create a new AudioBuffer by combining the old and the new, and I change the buffer of the AudioSourceNode with the new one. At that point I start playing again from the new AudioBuffer.
 
 A lot of thanks to Paul (<a href="http://twitter.com/aerotwist" title="Paul Lewis on Twitter" target="_blank">@aerotwist</a>) for his suggestions and to Theo for letting me use his awesome track <a href="https://soundcloud.com/theokouroumlis/breathe-in" title="Theo Kouroumlis - Breathe In" target="_blank">Breathe In</a>.
+
+**Demo:** <a href="http://72lions.github.com/PlayingChunkedMP3-WebAudioAPI/" target="_blank">http://72lions.github.com/PlayingChunkedMP3-WebAudioAPI/</a>
