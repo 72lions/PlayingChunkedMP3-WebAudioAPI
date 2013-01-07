@@ -138,7 +138,7 @@ var MP3ChunksPlayer = function() {
   var _play = function() {
     // Adding a bit of  scheduling so that we won't have single digit milisecond overlaps.
     // Thanks to Chris Wilson for his suggestion.
-    var scheduledTime = _context.currently + 0.015;
+    var scheduledTime = 0.015;
 
     try {
       _audioSource.stop(scheduledTime);
@@ -148,8 +148,8 @@ var MP3ChunksPlayer = function() {
     _audioSource.buffer = _audioBuffer;
     _audioSource.connect(_analyser);
     _audioSource.connect(_context.destination);
-    var currentTime = _context.currentTime || 0;
-    _audioSource.start(scheduledTime - 0.05, currentTime, _audioBuffer.duration - currentTime);
+    var currentTime = _context.currentTime + 0.010 || 0;
+    _audioSource.start(scheduledTime - 0.005, currentTime, _audioBuffer.duration - currentTime);
     _audioSource.playbackRate.value = 1;
     _self.trigger('message', ['AudioBuffer is replaced!']);
   };
