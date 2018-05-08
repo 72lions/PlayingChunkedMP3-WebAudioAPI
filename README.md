@@ -8,4 +8,6 @@ When the second part is loaded then then I create a new AudioBuffer by combining
 
 A lot of thanks to Paul (<a href="http://twitter.com/aerotwist" title="Paul Lewis on Twitter" target="_blank">@aerotwist</a>) for his suggestions and to Theo for letting me use his awesome track <a href="https://soundcloud.com/theokouroumlis/breathe-in" title="Theo Kouroumlis - Breathe In" target="_blank">Breathe In</a>.
 
-**<a href="http://72lions.github.com/PlayingChunkedMP3-WebAudioAPI/" target="_blank">Demo</a>**
+#Example
+
+http://72lions.github.com/PlayingChunkedMP3-WebAudioAPI
