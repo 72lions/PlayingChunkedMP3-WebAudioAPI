@@ -174,7 +174,7 @@ var MP3ChunksPlayer = function() {
     }
 
     // Use decodeAudioData so that we don't block the main thread.
-    _context.decodeAudioData(_activeBuffer, function(buf) {
+    _context.decodeAudioData(_activeBuffer.slice(0), function(buf) {
       _self.trigger('message', ['AudioData decoded!']);
       _audioBuffer = buf;
       _play();
